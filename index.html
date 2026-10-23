@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WeVisOne-VL: Unified Visual Perception from Objects to Pixels</title>
+  <meta name="description" content="WeVisOne-VL is a vision-language foundation model that unifies object-level and pixel-level perception — detection, referring, counting, pointing, OCR, segmentation and alpha matting — through structured next-token prediction." />
+  <meta property="og:title" content="WeVisOne-VL: Unified Visual Perception from Objects to Pixels" />
+  <meta property="og:description" content="One VLM. Points, boxes, masks and alpha mattes — all from next-token prediction." />
+  <meta property="og:image" content="static/images/teaser.webp" />
+  <meta name="theme-color" content="#04070a" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="static/css/style.css?v=teaser4" />
+</head>
+<body>
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <a class="nav-brand" href="#top">
+      <span class="brand-mark"><span></span></span>
+      WeVisOne<span class="dim">-VL</span>
+    </a>
+    <div class="nav-links">
+      <a href="#demo">Demo</a>
+      <a href="#method">Method</a>
+      <a href="#training">Training</a>
+      <a href="#results">Results</a>
+      <a href="#citation">Citation</a>
+    </div>
+    <a class="nav-cta" href="https://github.com/Tencent/WeVisOne-VL" target="_blank" rel="noopener">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+      Star on GitHub
+    </a>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <canvas id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+    <div class="hero-inner">
+      <div class="hero-badge reveal">
+        <img class="wechat-logo" src="static/images/wechat-logo.png" alt="WeChat" />
+        WeChat Vision · Tencent Inc.
+      </div>
+
+      <h1 class="hero-title reveal">
+        <span class="grad-text">WeVisOne</span><span class="title-suffix">-VL</span>
+      </h1>
+      <p class="hero-subtitle reveal">
+        Unified Visual Perception <span class="from">from</span> <span class="hl-obj">Objects</span> <span class="from">to</span> <span class="hl-pix">Pixels</span>
+      </p>
+
+      <div class="hero-typer reveal" aria-live="polite">
+        <span class="typer-prompt">&gt;</span>
+        <span id="typer"></span><span class="caret"></span>
+      </div>
+
+      <div class="authors reveal">
+        <span>Tianming Liang<sup>*</sup></span>
+        <span>Junyi Pan<sup>*</sup></span>
+        <span>Yuxi Li<sup>*</sup></span>
+        <span>Canmiao Fu</span>
+        <span>Zhipeng Huang</span>
+        <span>Chong Sun<sup>†</sup></span>
+        <span>Chen Li<sup>‡</sup></span>
+        <span>Jing Lyu</span>
+      </div>
+      <div class="affil reveal">
+        <span><b>WeChat Vision, Tencent Inc.</b></span>
+        <span class="notes"><sup>*</sup>Equal contribution &nbsp; <sup>†</sup>Project leader &nbsp; <sup>‡</sup>Corresponding author</span>
+      </div>
+
+      <div class="hero-buttons reveal">
+        <a class="btn btn-primary" href="https://arxiv.org/abs/2610.31329" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zM8 13h8v2H8v-2zm0 4h8v2H8v-2z"/></svg>
+          Paper
+        </a>
+        <a class="btn" href="https://github.com/Tencent/WeVisOne-VL" target="_blank" rel="noopener">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          Code
+        </a>
+        <a class="btn" href="https://huggingface.co/tencent/WeVisOne-VL-4B" target="_blank" rel="noopener">
+          <span class="emoji" aria-hidden="true">🤗</span>
+          Weights (4B)
+        </a>
+        <a class="btn" href="https://huggingface.co/tencent/WeVisOne-VL-2B" target="_blank" rel="noopener">
+          <span class="emoji" aria-hidden="true">🤗</span>
+          Weights (2B)
+        </a>
+      </div>
+
+    </div>
+
+    <a class="scroll-hint" href="#teaser" aria-label="Scroll down"><span></span></a>
+  </header>
+
+  <!-- ============ TEASER ============ -->
+  <section class="section teaser-section" id="teaser">
+    <div class="container">
+      <div class="teaser-frame reveal tilt">
+        <div class="scanline" aria-hidden="true"></div>
+        <img src="static/images/teaser.webp" alt="Overview of WeVisOne-VL's unified object- and pixel-level perception capabilities" loading="eager" />
+        <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+      </div>
+      <p class="caption reveal">One model, every granularity: from <b>points</b> and <b>boxes</b> to <b>binary masks</b> and <b>continuous alpha mattes</b> — and a confident <code>None</code> when the target isn't there.</p>
+    </div>
+  </section>
+
+  <!-- ============ ABSTRACT ============ -->
+  <section class="section" id="abstract">
+    <div class="container narrow">
+      <div class="eyebrow reveal">Abstract</div>
+      <h2 class="section-title reveal">Fine-grained perception, <span class="grad-text">reliably</span>.</h2>
+      <p class="lead reveal">
+        Existing vision-language models remain unreliable for fine-grained visual perception. We present
+        <b>WeVisOne-VL</b> (<b>We</b>Chat <b>Vis</b>ion all-in-<b>One</b>), a VLM that unifies object-level and pixel-level
+        perception through <em>structured next-token prediction</em>. It supports object detection, referring localization,
+        counting, pointing, OCR, segmentation and matting — localizing at any user-specified granularity, from points and
+        boxes to masks and alpha mattes.
+      </p>
+      <p class="lead reveal">
+        A lightweight <b>9.6M-parameter pixel decoder</b> is plugged into the VLM through a special <code class="tok-obj">&lt;OBJ&gt;</code>
+        token to produce instance-level pixel outputs. Trained with a three-stage curriculum SFT followed by mixed-task RL on ~100M images,
+        WeVisOne-VL leads <b>30+ benchmarks</b> across object- and pixel-level tasks while robustly rejecting queries for absent objects.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ INTERACTIVE DEMO ============ -->
+  <section class="section" id="demo">
+    <div class="container">
+      <div class="eyebrow reveal">Interactive</div>
+      <h2 class="section-title reveal">Watch tokens become <span class="grad-text">geometry</span>.</h2>
+      <p class="section-sub reveal">Real outputs from <b>WeVisOne-VL-4B</b>, replayed token by token. Every coordinate is a single vocabulary token <code class="tok-num">&lt;0&gt;</code>…<code class="tok-num">&lt;1000&gt;</code>; every <code class="tok-obj">&lt;OBJ&gt;</code> wakes up the pixel decoder.</p>
+
+      <div class="demo reveal">
+        <div class="demo-tabs" id="demoTabs" role="tablist"></div>
+        <div class="demo-body">
+          <div class="demo-stage-wrap">
+            <div class="demo-stage" id="demoStage">
+              <img id="demoImg" alt="Demo input image" />
+              <div class="matte-layer" id="matteLayer"><img id="matteImg" alt="" /></div>
+              <div class="overlay" id="demoOverlay"></div>
+              <div class="stage-scan" id="stageScan"></div>
+            </div>
+            <div class="stage-legend" id="stageLegend"></div>
+          </div>
+          <div class="terminal">
+            <div class="term-head">
+              <span class="dots"><i></i><i></i><i></i></span>
+              <span class="term-title">wevisone_vl · model.predict()</span>
+              <button class="replay" id="demoReplay" type="button" aria-label="Replay">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/></svg>
+                Replay
+              </button>
+            </div>
+            <div class="term-body">
+              <div class="term-line"><span class="term-label">task</span><span id="termTask" class="term-task"></span></div>
+              <div class="term-line"><span class="term-label">prompt</span><span id="termPrompt" class="term-prompt"></span></div>
+              <div class="term-sep"></div>
+              <div class="term-label">response</div>
+              <pre class="term-out" id="termOut"></pre>
+            </div>
+            <div class="term-foot">
+              <span><i class="led"></i><span id="termStatus">ready</span></span>
+              <span id="termStats"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ METHOD ============ -->
+  <section class="section" id="method">
+    <div class="container">
+      <div class="eyebrow reveal">Method</div>
+      <h2 class="section-title reveal">A VLM that speaks <span class="grad-text">coordinates</span> — and paints pixels.</h2>
+      <p class="section-sub reveal">Built on Qwen3-VL. No SAM, no external segmentation backbone — the pixel decoder reuses the VLM's own multi-level ViT features.</p>
+
+      <div class="figure-card reveal zoomable" data-full="static/images/model.webp" data-caption="WeVisOne-VL architecture: a VLM backbone emits boxes and &lt;OBJ&gt; tokens; a 9.6M-parameter pixel decoder turns each &lt;OBJ&gt; hidden state into a full-resolution mask and alpha matte.">
+        <img src="static/images/model.webp" alt="WeVisOne-VL architecture" loading="lazy" />
+        <span class="zoom-hint">Click to enlarge</span>
+      </div>
+
+      <div class="pillars">
+        <div class="pillar reveal spot">
+          <div class="pillar-num">01</div>
+          <h3>Visual Feature Adapter</h3>
+          <p>Taps four levels of <b>pre-merge Qwen3-VL ViT features</b>, projects and refines them with depthwise-conv blocks into a shared pixel feature pyramid.</p>
+        </div>
+        <div class="pillar reveal spot">
+          <div class="pillar-num">02</div>
+          <h3>Box-guided Query Decoder</h3>
+          <p>Each <code class="tok-obj">&lt;OBJ&gt;</code> hidden state + a Fourier-encoded box prior becomes an instance query, refined by <b>6 deformable cross-attention blocks</b>.</p>
+        </div>
+        <div class="pillar reveal spot">
+          <div class="pillar-num">03</div>
+          <h3>Instance-conditioned Dense Head</h3>
+          <p>Dynamic kernels predict masks, then a <b>coarse-to-fine cascade</b> (S/4 → S/2 → S/1) recovers hair-level, full-resolution alpha mattes.</p>
+        </div>
+      </div>
+
+      <div class="token-explainer reveal">
+        <div class="tx-left">
+          <h3>Coordinates are just tokens.</h3>
+          <p>1,001 dedicated tokens <code class="tok-num">&lt;0&gt;</code>…<code class="tok-num">&lt;1000&gt;</code> encode normalized positions. A box costs exactly four tokens; a point costs two. Absent target? The model simply writes <code class="tok-none">None</code>.</p>
+          <div class="tx-seq" id="txSeq">
+            <span class="t-ref">&lt;ref&gt;dog&lt;/ref&gt;</span><span class="t-box">&lt;box&gt;</span><span class="t-num" data-k="x0">&lt;13&gt;</span><span class="t-num" data-k="y0">&lt;274&gt;</span><span class="t-num" data-k="x1">&lt;399&gt;</span><span class="t-num" data-k="y1">&lt;949&gt;</span><span class="t-obj">&lt;OBJ&gt;</span><span class="t-box">&lt;/box&gt;</span>
+          </div>
+        </div>
+        <div class="tx-right">
+          <div class="tx-canvas">
+            <img src="static/images/demo_dogs.webp" alt="" loading="lazy" />
+            <div class="tx-box" style="left:1.3%;top:27.4%;width:38.6%;height:67.5%"><span>dog</span></div>
+            <div class="tx-axis x"><span>0</span><span>500</span><span>1000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ DATA & TRAINING ============ -->
+  <section class="section" id="training">
+    <div class="container">
+      <div class="eyebrow reveal">Data &amp; Training</div>
+      <h2 class="section-title reveal">~100M images. <span class="grad-text">A self-improving data engine.</span></h2>
+      <p class="section-sub reveal">A knowledge graph of categories and referring expressions drives targeted acquisition; complementary localization experts propose, a VLM verifies, SAM2 extends to masks, and a dedicated annotator produces continuous alpha. Model errors feed back into the next round.</p>
+
+      <div class="figure-card reveal zoomable" data-full="static/images/data_engine.webp" data-caption="The unified data engine: semantic discovery &amp; acquisition → localization &amp; semantic review → instance-aligned supervision, closed by an error-driven refinement loop.">
+        <img src="static/images/data_engine.webp" alt="Data engine" loading="lazy" />
+        <span class="zoom-hint">Click to enlarge</span>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-tag">SFT · Stage 1</div><h4>Task alignment</h4><p>Follow instructions, emit well-formed structured outputs.</p><span class="tl-n">90.2M samples</span></div>
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-tag">SFT · Stage 2</div><h4>High-res &amp; dense</h4><p>Boost recall of small, crowded objects.</p><span class="tl-n">40.5M samples</span></div>
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-tag">SFT · Stage 3</div><h4>Pixel-level</h4><p>Warm-up the decoder, then extend to masks &amp; mattes.</p><span class="tl-n">41.8M samples</span></div>
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-tag">RL · GRPO</div><h4>Mixed-task RL</h4><p>Uncertainty-selected samples; sharper boxes, fewer hallucinations.</p><span class="tl-n">178K samples</span></div>
+      </div>
+
+      <div class="figure-card slim reveal zoomable" data-full="static/images/training_data.webp" data-caption="Training data composition across curriculum stages.">
+        <img src="static/images/training_data.webp" alt="Training data composition" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="section" id="results">
+    <div class="container">
+      <div class="eyebrow reveal">Results</div>
+      <h2 class="section-title reveal">Leading <span class="grad-text">30+ benchmarks</span>, from objects to pixels.</h2>
+      <p class="section-sub reveal">Compared with Qwen3-VL / Qwen3.5, Rex-Omni, LocateAnything, specialist detectors, OCR systems and segmentation / matting models.</p>
+
+      <div class="bench reveal">
+        <div class="bench-tabs" id="benchTabs" role="tablist"></div>
+        <div class="bench-chips" id="benchChips"></div>
+        <div class="bench-meta" id="benchMeta"></div>
+        <div class="bench-chart" id="benchChart"></div>
+        <div class="bench-legend">
+          <span><i class="lg ours"></i>WeVisOne-VL (ours)</span>
+          <span><i class="lg vlm"></i>Grounding VLMs</span>
+          <span><i class="lg gen"></i>General VLMs</span>
+          <span><i class="lg spec"></i>Specialists</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CITATION ============ -->
+  <section class="section" id="citation">
+    <div class="container narrow">
+      <div class="eyebrow reveal">Citation</div>
+      <h2 class="section-title reveal">BibTeX</h2>
+      <div class="code-card reveal">
+        <div class="code-head"><span>bibtex</span><button class="copy" data-copy="bibtex">Copy</button></div>
+<pre id="bibtex"><code>@article{liang2026wevisone,
+  title   = {WeVisOne-VL: Unified Visual Perception from Objects to Pixels},
+  author  = {Liang, Tianming and Pan, Junyi and Li, Yuxi and Fu, Canmiao and
+             Huang, Zhipeng and Sun, Chong and Li, Chen and Lyu, Jing},
+  journal = {arXiv preprint arXiv:2610.31329},
+  year    = {2026}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="foot-brand"><span class="brand-mark"><span></span></span> WeVisOne-VL</div>
+      <p>© 2026 WeChat Vision, Tencent Inc. Code released under the Apache License 2.0.</p>
+      <p class="muted">Intended for research in visual grounding, OCR, segmentation and matting. Not intended for identifying individuals.</p>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lb-close" id="lbClose" aria-label="Close">×</button>
+    <img id="lbImg" alt="" />
+    <p id="lbCap"></p>
+  </div>
+
+  <script src="static/js/data.js?v=dogs"></script>
+  <script src="static/js/main.js?v=dogs"></script>
+</body>
+</html>
