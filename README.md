@@ -16,7 +16,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache%202.0-blue" alt="License"></a>
 </p>
 
-**English** | [简体中文](README_zh-CN.md)
+**English** | [简体中文](README_zh-CN.md) | [日本語](README_ja.md)
 
 </div>
 
