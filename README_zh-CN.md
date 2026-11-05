@@ -193,7 +193,7 @@
 
 ```bash
 git clone https://github.com/Tencent/WeVisOne-VL.git && cd WeVisOne-VL
-conda create -n wevisone-vl python=3.10 -y && conda activate wevisone-vl
+conda create -n wevisone-vl python=3.12 -y && conda activate wevisone-vl
 pip install -r requirements.txt && pip install -v -e .
 ```
 
