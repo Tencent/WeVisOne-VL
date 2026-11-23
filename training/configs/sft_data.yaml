@@ -1,0 +1,13 @@
+# Example SFT data mixture. Replace the entries with your own files.
+#
+#   path:   JSONL file in the format described in training/README.md
+#           (relative paths are resolved against the directory of this YAML file)
+#   ratio:  sampling ratio per epoch; 2.0 repeats the file twice, 0.5 keeps
+#           a random half (default: 1.0)
+datasets:
+  - path: data/detection.jsonl
+    ratio: 1.0
+  - path: data/referring.jsonl
+    ratio: 1.0
+  - path: data/segmentation.jsonl
+    ratio: 0.5

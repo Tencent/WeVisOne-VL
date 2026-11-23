@@ -47,7 +47,7 @@
 - [x] Benchmark evaluation pipeline
 - [x] Model weights (2B & 4B) on Hugging Face
 - [x] Release our matting annotator
-- [ ] Fine-tuning code
+- [x] Fine-tuning code
 
 
 
@@ -296,6 +296,10 @@ CUDA_VISIBLE_DEVICES=0 python demo/app.py \
 ## 📊 Evaluation
 
 See [evaluation/README.md](evaluation/README.md).
+
+## 🛠️ Training
+
+Supervised fine-tuning (including the pixel decoder) and GRPO on your own data. See [training/README.md](training/README.md) for the data format and launch scripts.
 
 ## 🖼️ Representative Visualizations
 

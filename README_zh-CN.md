@@ -45,7 +45,7 @@
 - [x] Benchmark 评测流程
 - [x] 在 Hugging Face 上发布模型权重（2B 和 4B）
 - [x] 开源抠图打标模型
-- [ ] 微调代码
+- [x] 微调代码
 
 ## 🏆 性能速览
 
@@ -276,6 +276,10 @@ CUDA_VISIBLE_DEVICES=0 python demo/app.py \
 ## 📊 评测
 
 请参考 [evaluation/README.md](evaluation/README.md)。
+
+## 🛠️ 训练
+
+支持在自有数据上进行监督微调（含像素解码器）和 GRPO 强化学习。数据格式与启动脚本见 [training/README.md](training/README.md)。
 
 ## 🖼️ 代表性可视化
 
