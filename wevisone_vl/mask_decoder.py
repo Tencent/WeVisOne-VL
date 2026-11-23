@@ -719,7 +719,7 @@ class WeVisOneMaskDecoder(nn.Module):
         # backbone dtype.
         self.float()
         with torch.autocast(device_type=image.device.type, enabled=False):
-            return self._forward_fp32(
+            return self.decode(
                 image.float(),
                 [feature.float() for feature in visual_features_2d],
                 t_seg.float(),
@@ -727,7 +727,7 @@ class WeVisOneMaskDecoder(nn.Module):
                 grid_hw,
             )
 
-    def _forward_fp32(
+    def decode(
         self,
         image: torch.Tensor,
         visual_features_2d: List[torch.Tensor],
@@ -735,6 +735,7 @@ class WeVisOneMaskDecoder(nn.Module):
         boxes01: torch.Tensor,
         grid_hw: Tuple[int, int],
     ) -> Dict[str, torch.Tensor]:
+        """Run the decoder in the dtype of its inputs and parameters."""
         if t_seg.shape[0] != boxes01.shape[0]:
             raise ValueError(
                 f"#OBJ={t_seg.shape[0]} does not match #boxes={boxes01.shape[0]}"

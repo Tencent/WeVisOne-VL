@@ -28,6 +28,7 @@ dependencies = [
 
 [project.optional-dependencies]
 demo = ["gradio==6.30.0"]
+train = ["deepspeed==0.19.2", "pyarrow==24.0.0", "PyYAML==6.0.3"]
 vllm = [
   "vllm==0.23.0 ; sys_platform != 'win32'",
   "triton==3.6.0 ; sys_platform != 'win32'",
