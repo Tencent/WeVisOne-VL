@@ -34,6 +34,7 @@
 
 ## 📢 新闻
 
+- **[2026-11]** 🛠️ 我们开源了 SFT 与 RL 训练代码！请查看 [`training/`](training/README.md)。
 - **[2026-10]** 🎮 Demo 可以在线体验了：[2B](https://huggingface.co/spaces/hugging-apps/wevisone-vl-2b) / [4B](https://huggingface.co/spaces/hugging-apps/wevisone-vl-4b)。
 - **[2026-10] 🔥🔥 我们还开源了 WeVisOne-VL 数据引擎中使用的抠图打标模型 [Mask2Alpha](https://github.com/Tencent/WeVisOne-VL/tree/mask2alpha)，可将二值掩码转换为高质量的 Alpha Matte！** 请查看 [`mask2alpha`](https://github.com/Tencent/WeVisOne-VL/tree/mask2alpha) 分支。
 - **[2026-10]** 🎉 我们发布了技术报告、模型权重（2B 和 4B）、推理工具包、Cookbooks 和评测流程！

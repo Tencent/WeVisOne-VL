@@ -34,6 +34,7 @@
 
 ## 📢 News
 
+- **[2026-11]** 🛠️ We open-sourced our SFT and RL training code! Check out [`training/`](training/README.md).
 - **[2026-10]** 🎮 The demo is ready to try: [2B](https://huggingface.co/spaces/hugging-apps/wevisone-vl-2b) / [4B](https://huggingface.co/spaces/hugging-apps/wevisone-vl-4b).
 - **[2026-10] 🔥🔥 We also open-sourced [Mask2Alpha](https://github.com/Tencent/WeVisOne-VL/tree/mask2alpha), the matting annotator used in the WeVisOne-VL Data Engine to turn binary masks into high-quality alpha mattes!** Check out the [`mask2alpha`](https://github.com/Tencent/WeVisOne-VL/tree/mask2alpha) branch.
 - **[2026-10]** 🎉 We release the technical report, model weights (2B & 4B), inference package, Cookbooks, and evaluation pipeline!
