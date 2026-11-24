@@ -155,7 +155,7 @@ model = WeVisOneVL("outputs/sft")
 
    | `task` | Reward ([`rl/reward.py`](rl/reward.py)) |
    | --- | --- |
-   | `detection`, `referring`, `visual_prompt`, `ocr_grounding` | box F1: per-label Hungarian matching, `2 * sum(IoU) / (num_gt + num_pred)` |
+   | `detection`, `referring`, `visual_prompt`, `ocr_grounding` | box F1: per-label Hungarian matching, `2 * sum(IoU**3) / (num_gt + num_pred)` |
    | `ocr` | box F1 over normalized text labels |
    | `segmentation`, `matting` | box F1 where a predicted box only counts when followed by `<OBJ>` |
    | `point` | soft point F1 with similarity `1 - distance / diagonal` |
