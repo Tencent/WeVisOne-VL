@@ -9,7 +9,7 @@ same code. The task comes from ``extra_info["task"]``:
 task                            reward
 ==============================  ===============================================
 detection, referring,           box F1: per-label Hungarian matching,
-visual_prompt, ocr_grounding    ``2 * sum(IoU) / (num_gt + num_pred)``
+visual_prompt, ocr_grounding    ``2 * sum(IoU**3) / (num_gt + num_pred)``
 ocr                             box F1 over normalized text labels
 segmentation, matting           box F1 where a predicted box only counts when
                                 it is followed by ``<OBJ>``
@@ -138,7 +138,7 @@ def box_f1(gt: Geometry, pred: Geometry) -> float:
     for label in gt.keys() & pred.keys():
         iou = _iou_matrix(gt[label], pred[label])
         rows, cols = linear_sum_assignment(iou, maximize=True)
-        matched += float(iou[rows, cols].sum())
+        matched += float((iou[rows, cols] ** 3).sum())
     return 2.0 * matched / (num_gt + num_pred)
 
 
